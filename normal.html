@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            Kanu
+        </div>
+        <nav>
+            <a href="inicio.html">Início</a>
+            <a href="jogar.html">Jogar</a>
+            <a href="acervo.html">Acervo</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <div class="Perfil">
+            <div id="img">
+                <img src="assets/kanu e maju.png.jpg" alt="KaNu e Maju">
+            </div>
+            <a href="perfil.html">Jogador</a>
+        </div>
+    </header>
+    <main>
+        <section class="area-slots">
+            <h2>Ordem cronológica</h2>
+            <div class="grid-slots" id="gridSlots">
+            </div>
+        </section>
+        <section class="area-midia">
+            <h2>Organize as mídias</h2>
+            <div class="grid-midia" id="gridMidia">
+            </div>
+        </section>
+        <div class="controles">
+            <span id="contadorChances">🎯 6/6</span>
+            <span id="contadorDicas">🔍 3/3</span>
+            <button class="btn-outline" id="btnDica">Dica</button>
+            <button class="btn" id="btnVerificar">Verificar</button>
+        </div>
+        <div id="modal" class="modal escondido">
+            <div id="modalConteudo" class="modal-conteudo"></div>
+        </div>
+        <div id="telaVitoria" class="tela-resultado escondido">
+            <div class="resultado-conteudo">
+                <h2>🎉 Parabéns!</h2>
+                <p>Você conseguiu!</p>
+                <div id="bonusData" class="bonus-data"></div>
+                <button class="btn" onclick="location.reload()">Jogar Novamente</button>
+            </div>
+        </div>
+
+        <div id="telaDerrota" class="tela-resultado escondido">
+            <div class="resultado-conteudo">
+                <h2>💔 Suas chances acabaram</h2>
+                <p>Mas a história continua... <br>Tente novamente!</p>
+                <button class="btn" onclick="location.reload()">Tentar Novamente</button>
+            </div>
+        </div>
+    </main>
+    <script src="dados.js"></script>
+    <script src="normal.js"></script>
+    <script src="player.js"></script>
+</body>
+
+</html>
