@@ -77,13 +77,13 @@ function abrirModal(conteudo) {
 }
 
 let cardSelecionado = null;
-let clicqueTimer = null;
+let cliqueTimer = null;
 
 document.getElementById("gridMidia").addEventListener("click", function (e) {
     const card = e.target.closest(".card-midia");
     if (!card) return;
 
-    clicqueTimer = setTimeout(() => {
+    cliqueTimer = setTimeout(() => {
         if (cardSelecionado) cardSelecionado.classList.remove("selecionado");
         if (cardSelecionado === card) {
             cardSelecionado = null;
@@ -98,7 +98,7 @@ document.getElementById("gridMidia").addEventListener("dblclick", function (e) {
     const card = e.target.closest(".card-midia");
     if (!card) return;
 
-    clearTimeout(clicqueTimer);
+    clearTimeout(cliqueTimer);
     abrirModal(card.innerHTML);
 });
 
@@ -110,12 +110,45 @@ document.getElementById("modal").addEventListener("click", function (e) {
     }
 });
 
+function criarCardMidia(idMidia, conteudoHTML) {
+    const card = document.createElement("div");
+    card.classList.add("card-midia");
+    card.dataset.id = idMidia;
+    card.innerHTML = conteudoHTML;
+    return card;
+}
+
 document.getElementById("gridSlots").addEventListener("click", function (e) {
     const slotMidia = e.target.closest(".slot-midia");
     if (!slotMidia) return;
+
+    const gridMidia = document.getElementById("gridMidia");
+
+    const slotTemMidia = slotMidia.dataset.idMidia;
+
+    if (!cardSelecionado && slotTemMidia) {
+        const cardDevolvido = criarCardMidia(slotMidia.dataset.idMidia, slotMidia.innerHTML);
+
+        gridMidia.appendChild(cardDevolvido);
+
+        slotMidia.innerHTML = `<span class="slot-vazio">+</span>`;
+        delete slotMidia.dataset.idMidia;
+
+        slotMidia.classList.remove("dica-certo", "dica-errado");
+        return;
+    }
+
     if (!cardSelecionado) return;
+
+    if (slotTemMidia) {
+        const cardAntigo = criarCardMidia(slotMidia.dataset.idMidia, slotMidia.innerHTML);
+        gridMidia.appendChild(cardAntigo);
+    }
+
     slotMidia.innerHTML = cardSelecionado.innerHTML;
     slotMidia.dataset.idMidia = cardSelecionado.dataset.id;
+    slotMidia.classList.remove("dica-certo", "dica-errado");
+
     cardSelecionado.remove();
     cardSelecionado = null;
 });
@@ -135,7 +168,7 @@ document.getElementById("gridSlots").addEventListener("change", function (e) {
         option.textContent = d;
         selectDia.appendChild(option);
     }
-})
+});
 
 let chances = 6;
 let dicas = 3;
@@ -145,61 +178,112 @@ function atualizarContadores() {
     document.getElementById("contadorDicas").textContent = `🔍 ${dicas}/3`;
 }
 
-document.getElementById("btnVerificar").addEventListener("click", function() {
+function slotEstaCorreto(slot) {
+    const posicao = parseInt(slot.dataset.posicao);
+
+    const slotMidia = slot.querySelector(".slot-midia");
+    const idMidia = parseInt(slotMidia.dataset.idMidia);
+
+    const mesEscolhido = parseInt(slot.querySelector(".select-mes").value);
+    const diaEscolhido = parseInt(slot.querySelector(".select-dia").value);
+
+    const midia = midias.find(m => m.id === idMidia);
+
+    return (
+        midia &&
+        midia.ordemCorreta === posicao &&
+        midia.mes === mesEscolhido &&
+        midia.dia === diaEscolhido
+    );
+}
+
+document.getElementById("btnVerificar").addEventListener("click", function () {
     const slots = document.querySelectorAll(".slot");
     let todosCorretos = true;
+    let todosPreenchidos = true;
 
     slots.forEach(slot => {
-        const posicao = parseInt(slot.dataset.posicao);
         const slotMidia = slot.querySelector(".slot-midia");
-        const idMidia = parseInt(slotMidia.dataset.idMidia);
-        const midia = midias.find(m => m.id === idMidia);
-        const posicaoCorreta = midia && midia.ordemCorreta === posicao;
-        if (!posicaoCorreta) todosCorretos = false;
+        const idMidia = slotMidia.dataset.idMidia;
+
+        const mesEscolhido = slot.querySelector(".select-mes").value;
+        const diaEscolhido = slot.querySelector(".select-dia").value;
+
+        if (!idMidia || !mesEscolhido || !diaEscolhido) {
+            todosPreenchidos = false;
+        }
+
+        if (!slotEstaCorreto(slot)) {
+            todosCorretos = false;
+        }
     });
+
+    if (!todosPreenchidos) {
+        alert("Preencha todos os slots com mídia, mês e dia antes de verificar.");
+        return;
+    }
 
     if (todosCorretos) {
         document.getElementById("telaVitoria").classList.remove("escondido");
     } else {
         chances--;
         atualizarContadores();
+
         if (chances === 0) {
             document.getElementById("btnVerificar").disabled = true;
             document.getElementById("btnDica").disabled = true;
             document.getElementById("telaDerrota").classList.remove("escondido");
         } else {
-            alert(`❌ Ainda tem algo errado! Chances restantes: ${chances}`);
+            alert(`Ainda tem algo errado! Chances restantes: ${chances}`);
         }
     }
 });
 
 
-document.getElementById("btnDica").addEventListener("click", function() {
+document.getElementById("btnDica").addEventListener("click", function () {
+    if (dicas === 0) return;
 
-if (dicas === 0) return;
+    const existeSlotPreenchido = [...document.querySelectorAll(".slot")].some(slot => {
+        const slotMidia = slot.querySelector(".slot-midia");
+        const idMidia = slotMidia.dataset.idMidia;
+        const mesEscolhido = slot.querySelector(".select-mes").value;
+        const diaEscolhido = slot.querySelector(".select-dia").value;
 
-dicas--;
-atualizarContadores();
+        return idMidia && mesEscolhido && diaEscolhido;
 
-document.querySelectorAll(".slot").forEach(slot => {
-    const posicao = parseInt(slot.dataset.posicao);
-    const slotMidia = slot.querySelector(".slot-midia");
-    const idMidia = parseInt(slotMidia.dataset.idMidia);
+    });
 
-    slotMidia.classList.remove("dica-certo", "dica-errado");
-
-    if(!idMidia) return;
-
-    const midia = midias.find(m => m.id === idMidia);
-    const posicaoCorreta = midia && midia.ordemCorreta === posicao;
-
-    if (posicaoCorreta) {
-        slotMidia.classList.add("dica-certo");
-    } else {
-        slotMidia.classList.add("dica-errado");
+    if (!existeSlotPreenchido) {
+        alert("Preencha pelo menos um slot com mídia, mês e dia antes de usar uma dica");
+        return;
     }
+
+    dicas--;
+    atualizarContadores();
+
+    document.querySelectorAll(".slot").forEach(slot => {
+        const slotMidia = slot.querySelector(".slot-midia");
+
+        slotMidia.classList.remove("dica-certo", "dica-errado");
+
+        const idMidia = slotMidia.dataset.idMidia;
+        const mesEscolhido = slot.querySelector(".select-mes").value;
+        const diaEscolhido = slot.querySelector(".select-dia").value;
+
+        if (!idMidia  || !mesEscolhido || !diaEscolhido) {
+            return;
+        }
+        
+        if (slotEstaCorreto(slot)) {
+            slotMidia.classList.add("dica-certo");
+
+        } else {
+            slotMidia.classList.add("dica-errado");
+        }
+    });
 });
-});
+
+
 
 renderizarCards();
 renderizarSlots();
