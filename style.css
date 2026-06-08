@@ -698,3 +698,38 @@ h3 {
     }
 
 }
+
+@media (max-width: 768px) {
+    .grid-midia {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 15px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .card-midia {
+        flex-shrink: 0;
+        width: 150px;
+        height: 150px;
+        scroll-snap-align: start;
+    }
+
+    .grid-slots {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 15px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .slot {
+        flex-shrink: 0;
+        width: 150px;
+        scroll-snap-align: start;
+    }
+}
