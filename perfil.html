@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -18,13 +20,40 @@
             <a href="ranking.html">Ranking</a>
             <a href="sobre.html">Sobre</a>
         </nav>
-        <div class="Perfil">
-            <div id="img">
-                <img src="assets/kanu e maju.png.jpg" alt="KaNu e Maju">
-            </div>
-            <a href="perfil.html">Jogador</a>
-        </div>
+     <div class="Perfil">
+    <div id="img">
+        <img id="headerFotoPerfil" src="assets/kanu e maju.png.jpg" alt="Foto do perfil">
+    </div>
+    <a id="headerNomePerfil" href="perfil.html">Jogador</a>
+</div>
     </header>
-<script src="player.js"></script>
+
+    <main>
+        <section class="perfil-container">
+            <div class="perfil-card">
+                <img id="previewFoto" class="perfil-foto" src="assets/kanu e maju.png.jpg" alt="Foto do perfil">
+
+                <h1 id="previewNome">Jogador</h1>
+
+                <label for="inputNome">Nome</label>
+                <input id="inputNome" type="text" placeholder="Digite seu nome">
+
+                <label for="inputFoto">Foto de perfil</label>
+                <input id="inputFoto" type="file" accept="image/*">
+
+                <button class="btn" id="btnSalvarPerfil">Salvar Perfil</button>
+            </div>
+
+            <div class="perfil-conquistas">
+                <h2>Conquistas</h2>
+                <p>Em breve suas conquistas aparecerão</p>
+            </div>
+
+        </section>
+    </main>
+    <script src="header.js"></script>
+    <script src="perfil.js"></script>
+    <script src="player.js"></script>
 </body>
+
 </html>

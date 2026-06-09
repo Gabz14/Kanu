@@ -11,23 +11,25 @@ const midiasEmbaralhadas = embaralhar(midias);
 
 function renderizarCards() {
     const grid = document.getElementById("gridMidia");
+
     midiasEmbaralhadas.forEach(midia => {
         const card = document.createElement("div");
         card.classList.add("card-midia");
         card.dataset.id = midia.id;
+
         if (midia.tipo === "foto") {
             card.innerHTML = `<img src="${midia.src}" alt="midia ${midia.id}">`;
         } else {
             if (midia.thumb) {
                 card.innerHTML = `<img src="${midia.thumb}" alt="midia ${midia.id}">`;
             } else {
-                card.innerHTML = `<video src="${midia.src}" preload="metadata"></video>`;
+                card.innerHTML = `<video src="${midia.src}#t=0.1" preload="metadata" muted playsinline></video>`;
             }
         }
+
         grid.appendChild(card);
     });
 }
-
 function renderizarSlots() {
     const grid = document.getElementById("gridSlots");
     for (let i = 1; i <= midias.length; i++) {
@@ -173,6 +175,8 @@ document.getElementById("gridSlots").addEventListener("change", function (e) {
 let chances = 6;
 let dicas = 3;
 
+let inicioPartida = Date.now();
+
 function atualizarContadores() {
     document.getElementById("contadorChances").textContent = `🎯 ${chances}/6`;
     document.getElementById("contadorDicas").textContent = `🔍 ${dicas}/3`;
@@ -195,6 +199,39 @@ function slotEstaCorreto(slot) {
         midia.mes === mesEscolhido &&
         midia.dia === diaEscolhido
     );
+}
+
+function salvarRanking() {
+    const perfil = JSON.parse(localStorage.getItem("perfilkanu"));
+    const nome = perfil ? perfil.nome : prompt("Digite seu nome para o ranking:");
+
+    if (!nome) return;
+
+    const fimPartida = Date.now();
+    const tempoEmSegundos = Math.floor((fimPartida - inicioPartida) / 1000);
+
+    const pontuacao = (chances * 100) + (dicas * 50) - tempoEmSegundos;
+
+    const novoResultado = {
+        
+        nome: nome,
+        modo: "Normal",
+        pontos: pontuacao,
+        chancesRestantes: chances,
+        dicasRestantes: dicas,
+        tempo: tempoEmSegundos,
+        data: new Date().toLocaleDateString("pt-BR")
+    };
+
+    const ranking = JSON.parse(localStorage.getItem("rankingkanu")) || [];
+
+    ranking.push(novoResultado);
+
+    ranking.sort((a, b) => b.pontos - a.pontos);
+
+    const top10 = ranking.slice(0, 10);
+
+    localStorage.setItem("rankingkanu", JSON.stringify(top10));
 }
 
 document.getElementById("btnVerificar").addEventListener("click", function () {
@@ -224,6 +261,7 @@ document.getElementById("btnVerificar").addEventListener("click", function () {
     }
 
     if (todosCorretos) {
+        salvarRanking();
         document.getElementById("telaVitoria").classList.remove("escondido");
     } else {
         chances--;
