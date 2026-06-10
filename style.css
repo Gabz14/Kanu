@@ -815,3 +815,82 @@ h3 {
         grid-template-columns: 1fr;
     }
 }
+
+.acervo-bloqueado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+.bloqueio-conteudo {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);;
+    border: 1px solid rgba(181, 140, 255, 0.2);
+    border-radius: 20px;
+    padding: 50px;
+}
+
+.cadeado {
+    font-size: 4rem;
+}
+
+.acervo-secao {
+    margin-bottom: 40px;
+}
+
+.acervo-secao h2 {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color:#a359f8;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.acervo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.acervo-item:hover {
+    border-color: #a359f8;
+    box-shadow: 0 0 15px rgba(163, 89, 248, 0.4);
+    transform: scale(1.03);
+}
+
+.acervo-item img,
+.acervo-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.acervo-secreto {
+    border-radius: 10px;
+    border: 2px solid rgba(181, 140, 255, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.acervo-secreto.bloqueado {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.secreto-cadeado {
+    font-size: 2rem;
+}
+
+.acervo-vazio {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+}
