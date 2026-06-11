@@ -199,12 +199,20 @@ document.getElementById("btnVerificar").addEventListener("click", function () {
         if (!slotEstaCorreto(slot)) todosCorretos = false;
     });
 
-localStorage.setItem("jogouUmaVez", "true");
-
     if (!todosPreenchidos) {
         alert("Preencha todos os slots com mídia, mês e dia antes de verificar.");
         return;
     }
+
+    localStorage.setItem("jogouUmaVez", "true");
+
+    const midiasVistas = JSON.parse(localStorage.getItem("midiasVistas")) || [];
+    document.querySelectorAll(".slot-midia").forEach(slotMidia => {
+        if (slotMidia.dataset.idMidia && !midiasVistas.includes(parseInt(slotMidia.dataset.idMidia))) {
+            midiasVistas.push(parseInt(slotMidia.dataset.idMidia));
+        }
+    });
+    localStorage.setItem("midiasVistas", JSON.stringify(midiasVistas));
 
     if (todosCorretos) {
         const tempoSegundos = Math.floor((Date.now() - inicioDaPartida) / 1000);
@@ -226,6 +234,9 @@ localStorage.setItem("jogouUmaVez", "true");
         rankingAtual.sort((a, b) => b.pontos - a.pontos);
         const top10 = rankingAtual.slice(0, 10);
         localStorage.setItem("rankingkanu", JSON.stringify(top10));
+
+        localStorage.setItem("venceuNormal", "true");
+
 
         document.getElementById("telaVitoria").classList.remove("escondido");
     } else {

@@ -4,7 +4,17 @@ if (!jogouUmaVez) {
     document.getElementById("acervoBloqueado").classList.remove("escondido");
     document.getElementById("acervoConteudo").style.display = "none";
 } else {
+     localStorage.setItem("jogouUmaVez", "true");
+
+const jogouUmaVez = localStorage.getItem("jogouUmaVez");
+
+if (!jogouUmaVez) {
+    document.getElementById("acervoBloqueado").classList.remove("escondido");
+    document.getElementById("acervoConteudo").style.display = "none";
+} else {
+    document.getElementById("acervoBloqueado").style.display = "none";
     renderizarAcervo();
+
 }
 
 function renderizarAcervo() {
@@ -14,7 +24,7 @@ function renderizarAcervo() {
     const gridVideos = document.getElementById("acervoVideos");
     const gridFotos = document.getElementById("acervoFotos");
 
-    // Filtra só as mídias que o usuário já viu
+    
     const midiasDesbloqueadas = midias.filter(m => midiasVistas.includes(m.id));
 
     midiasDesbloqueadas.forEach(midia => {
@@ -29,13 +39,13 @@ function renderizarAcervo() {
             gridFotos.appendChild(item);
         }
 
-        // Abre modal ao clicar
+        
         item.addEventListener("click", function() {
             abrirModalAcervo(midia);
         });
     });
 
-    // Mensagem se não tiver nada ainda
+    
     if (gridVideos.children.length === 0) {
         gridVideos.innerHTML = `<p class="acervo-vazio">Nenhum vídeo desbloqueado ainda. Jogue para desbloquear!</p>`;
     }
@@ -43,7 +53,7 @@ function renderizarAcervo() {
         gridFotos.innerHTML = `<p class="acervo-vazio">Nenhuma foto desbloqueada ainda. Jogue para desbloquear!</p>`;
     }
 
-    // Áudios secretos
+   
     if (venceuNormal) {
         document.getElementById("secreto1").classList.remove("bloqueado");
         document.getElementById("secreto1").innerHTML = `
@@ -60,7 +70,7 @@ function renderizarAcervo() {
 
 function abrirModalAcervo(midia) {
     const modal = document.getElementById("modal");
-    const modalConteudo = document.getElementById("modalConteudo");
+    const modalMidiaConteudo = document.getElementById("modalMidiaConteudo");
 
     if (midia.tipo === "video") {
         modalConteudo.innerHTML = `<video src="${midia.src}" controls autoplay></video>`;
@@ -70,3 +80,11 @@ function abrirModalAcervo(midia) {
 
     modal.classList.remove("escondido");
 }
+
+document.getElementById("modal").addEventListener("click", function (e) {
+    if (e.target === this) {
+        const video = document.querySelector("#modalMidiaConteudo video");
+        if (video) video.compareDocumentPosition();
+        this.classList.add("escondido");
+    }
+});
