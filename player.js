@@ -5,6 +5,9 @@ const playlist = [
     { titulo: "Foi Assim", src: "assets/musicas/foi-assim.mp3" },
     { titulo: "Vícios e Virtudes", src: "assets/musicas/vicios-e-virtudes.m4a" },
     { titulo: "Eduardo e Mônica", src: "assets/musicas/eduardo-e-monica.m4a" },
+    { titulo: "The First Time", src: "assets/musicas/the-first-time.mp3" },
+    { titulo: "Turning Page", src: "assets/musicas/turning-page.mp3" },
+    { titulo: "Simples Assim", src: "assets/musicas/simples-assim.mp3" },
 ];
 
 let musicaAtual = 0;
@@ -12,7 +15,7 @@ let musicaAtual = 0;
 const playerHTML = `
 <div id="player" class="player">
     <div class="player-info">
-        <span id="playerTitulo">Eduardo e Mônica</span>
+        <span id="playerTitulo">Explodir</span>
     </div>
     <div class="player-controles">
         <button id="btnAnterior" class="btn-player">⏮</button>
@@ -36,7 +39,7 @@ function carregarMusica(index) {
     btnPlay.textContent = "▶";
 }
 
-document.getElementById("btnPlayPause").addEventListener("click", function() {
+document.getElementById("btnPlayPause").addEventListener("click", function () {
     if (audio.paused) {
         audio.play();
         btnPlay.textContent = "⏸";
@@ -46,21 +49,21 @@ document.getElementById("btnPlayPause").addEventListener("click", function() {
     }
 });
 
-document.getElementById("btnProximo").addEventListener("click", function() {
+document.getElementById("btnProximo").addEventListener("click", function () {
     musicaAtual = (musicaAtual + 1) % playlist.length;
     carregarMusica(musicaAtual);
     audio.play();
     btnPlay.textContent = "⏸";
 });
 
-document.getElementById("btnAnterior").addEventListener("click", function() {
+document.getElementById("btnAnterior").addEventListener("click", function () {
     musicaAtual = (musicaAtual - 1 + playlist.length) % playlist.length;
     carregarMusica(musicaAtual);
     audio.play();
     btnPlay.textContent = "⏸";
 });
 
-audio.addEventListener("ended", function() {
+audio.addEventListener("ended", function () {
     musicaAtual = (musicaAtual + 1) % playlist.length;
     carregarMusica(musicaAtual);
     audio.play();

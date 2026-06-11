@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acervo</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-     <header>
+    <header>
         <div class="logo">
             Kanu
         </div>
@@ -17,27 +19,57 @@
             <a href="ranking.html">Ranking</a>
             <a href="sobre.html">Sobre</a>
         </nav>
-     <div class="Perfil">
-    <div id="img">
-        <img id="headerFotoPerfil" src="assets/kanu e maju.png.jpg" alt="Foto do perfil">
-    </div>
-    <a id="headerNomePerfil" href="perfil.html">Jogador</a>
-</div>
+        <div class="Perfil">
+            <div id="img">
+                <img id="headerFotoPerfil" src="assets/kanu e maju.png.jpg" alt="Foto do perfil">
+            </div>
+            <a id="headerNomePerfil" href="perfil.html">Jogador</a>
         </div>
-        </header>
-        <main>
-    <div id="acervoBloqueado" class="acervo-bloqueado escondido">
-        <div class="bloqueio-conteudo">
-            <span class="cadeado">🔒</span>
-            <h2>Acervo bloqueado</h2>
-            <p>Jogue ao menos uma vez para desbloquear o acervo!</p>
-            <a href="normal.html" class="btn">Jogar agora</a>
+    </header>
+    <main>
+        <div id="acervoBloqueado" class="acervo-bloqueado escondido">
+            <div class="bloqueio-conteudo">
+                <span class="cadeado">🔒</span>
+                <h2>Acervo bloqueado</h2>
+                <p>Jogue ao menos uma vez para desbloquear o acervo!</p>
+                <a href="normal.html" class="btn">Jogar agora</a>
+            </div>
         </div>
-    </div>
 
-    <div id="acervoConteudo">
+        <div id="acervoConteudo">
+           <section class="acervo-secao">
+            <h2>🎬 Vídeos</h2>
+            <div class="acervo-grid" id="acervoVideos"></div>
+           </section>
 
+<section class="acervo-secao">
+    <h2>📸 Fotos</h2>
+    <div class="acervo-grid" id="acervoFotos"></div>
+</section>
+
+<section class="acervo-secao">
+    <h2>🔊 Áudios Secretos</h2>
+    <div class="acervo-grid" id="acervoAudios"></div>
+    <div class="acervo-secreto bloqueado" id="secreto1">
+        <span class="secreto-cadeado">🔒</span>
+        <p>Vença no modo normal para desbloquear</p>
     </div>
-</main>
+    <div class="acervo-secreto bloqueado" id="secreto2">
+        <span class="secreto-cadeado">🔒</span>
+        <p>Vença o modo normal para desbloquear</p>
+    </div>
+</section>
+        </div>
+        <div id="modal" class="modal escondido">
+            <div class="modal-conteudo">
+                <div id="modalMidiaConteudo"></div>
+            </div>
+    </main>
+    <script src="dados.js"></script>
+    <script src="header.js"></script>
+    <script src="acervo.js"></script>
+    
+    <script src="player.js"></script>
 </body>
+
 </html>

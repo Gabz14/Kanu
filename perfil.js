@@ -1,5 +1,4 @@
-const headerFotoPerfil = document.getElementById("headerFotoPerfil");
-const headerNomePerfil = document.getElementById("headerNomePerfil");
+
 const inputNome = document.getElementById("inputNome");
 const inputFoto = document.getElementById("inputFoto");
 const previewNome = document.getElementById("previewNome");
